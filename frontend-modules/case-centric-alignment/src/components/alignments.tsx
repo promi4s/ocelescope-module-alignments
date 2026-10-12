@@ -36,7 +36,7 @@ const AlignmentComponent = ({
         <ResourceSelect
           label="Model"
           description="Select Process Model to align against"
-          type="PetriNet"
+          type="e8a4b93820f2f145136e404a06dceb73e074982534c39d64895eda58ab5b5dc1"
           value={resourceId}
           placeholder="Auto-Discover with Alpha +++"
           onChange={(newResourceId) => setResourceId(newResourceId as string)}

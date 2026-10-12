@@ -12,6 +12,7 @@ app/next-env.d.ts
 **/.env.local
 
 .DS_Store
+*.tsbuildinfo
 
 # Generated API clients (run `pnpm run build:modules` to regenerate)
 frontend-modules/*/openapi.json
