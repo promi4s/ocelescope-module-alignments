@@ -1,0 +1,54 @@
+{
+	"name": "@instance/case-centric-alignments",
+	"version": "0.1.0",
+	"description": "case-centric Alignments",
+	"author": "Uy Sa Huynh",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./dist/index.js",
+		"./package.json": "./package.json"
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"generate:api": "uv run ocelescope-backend openapi --module caseCentricAlignments",
+		"build": "pnpm run generate:api && orval && tsdown",
+		"dev": "tsdown --watch ./src",
+		"typecheck": "tsc --noEmit"
+	},
+	"peerDependencies": {
+		"@ocelescope/api-client": "catalog:",
+		"@ocelescope/core": "catalog:",
+		"@ocelescope/resources": "catalog:",
+		"@tanstack/react-query": "catalog:",
+		"axios": "catalog:",
+		"lucide-react": "catalog:",
+		"next": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"@r4pm/components": "^0.3.2",
+		"@mantine/hooks": "9.4.0",
+		"@mantine/core": "^9.4.0",
+		"@xyflow/react": "^12.10.1",
+		"@mantine/notifications": "^9.7.1"
+	},
+	"devDependencies": {
+		"@ocelescope/api-client": "catalog:",
+		"@ocelescope/api-config": "catalog:",
+		"@ocelescope/core": "catalog:",
+		"@ocelescope/resources": "catalog:",
+		"@tanstack/react-query": "catalog:",
+		"@types/react": "catalog:",
+		"axios": "catalog:",
+		"lucide-react": "catalog:",
+		"next": "catalog:",
+		"orval": "catalog:",
+		"react": "catalog:",
+		"tsdown": "catalog:",
+		"typescript": "catalog:"
+	}
+}

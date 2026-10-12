@@ -1,0 +1,31 @@
+{
+	"name": "@instance/app",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@instance/case-centric-alignments": "workspace:*",
+		"@ocelescope/core": "catalog:",
+		"@ocelescope/management": "catalog:",
+		"next": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"@r4pm/components": "^0.3.2",
+		"@mantine/hooks": "9.4.0",
+		"@mantine/core": "^9.4.0",
+		"@xyflow/react": "^12.10.1",
+		"@mantine/notifications": "^9.7.1"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"typescript": "catalog:"
+	}
+}
