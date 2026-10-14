@@ -1,6 +1,6 @@
 import "@r4pm/components/styles.css";
 import { Box, Button, LoadingOverlay, Tabs, Stack, Text, Group, SegmentedControl } from "@mantine/core";
-import { defineModuleRoute, useCurrentOcel } from "@ocelescope/core";
+import { useCurrentOcel } from "@ocelescope/core";
 import type { LogAlignments } from "@r4pm/components";
 import { AlignmentListViewer, Theme, AlignmentNetViewer, ViewerConfigProvider } from "@r4pm/components";
 import { wasmLayout } from "@r4pm/components/rust-layout/wasm";
