@@ -8,6 +8,7 @@ from ocelescope import PetriNet
 from typing import cast
 from ocelescope_backend.app.sse_manager import ErrorNotification, sse_manager
 
+
 router = APIRouter()
 
 @router.get("/{ocel_id}/alignments", operation_id="get_alignments")

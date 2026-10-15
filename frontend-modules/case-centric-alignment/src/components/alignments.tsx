@@ -80,7 +80,7 @@ const Alignment = () => {
   }
 
   return (
-    <Theme style={{ height: "100%", minHeight: 0 }}>
+    <>
       {otherObjectTypes.length > 0 ? (
         <Tabs defaultValue={firstObjectType} keepMounted={false} h={"100%"}>
           <Stack h="100%" gap={"xs"}>
@@ -91,7 +91,7 @@ const Alignment = () => {
                 </Tabs.Tab>
               ))}
             </Tabs.List>
-            <Stack h="100%" gap="xs" px="xs">
+            <Stack h="100%" px="xs">
               <SegmentedControl 
                   value={mode} 
                   onChange={setMode} 
@@ -100,7 +100,7 @@ const Alignment = () => {
                   w={280}>
               </SegmentedControl>
               {objectTypes.map((objectType) => (
-                <Tabs.Panel key={objectType} value={objectType} pt="sm" flex={1}>
+                <Tabs.Panel key={objectType} value={objectType} flex={1}>
                   <AlignmentComponent ocelId={id} objectType={objectType} mode={mode} />
                 </Tabs.Panel>
               ))}
@@ -108,9 +108,18 @@ const Alignment = () => {
           </Stack>
         </Tabs>
       ) : (
-        <AlignmentComponent ocelId={id} objectType={firstObjectType} mode={mode} />
+        <Stack h="100%" px="xs" pt={"xs"}>
+          <SegmentedControl 
+                  value={mode} 
+                  onChange={setMode} 
+                  data={[{label: "Alignment List", value:"list"}, {label:"Alignment Net", value:"net"}]} 
+                  size="xs"
+                  w={280}>
+          </SegmentedControl>
+          <AlignmentComponent ocelId={id} objectType={firstObjectType} mode={mode} />
+        </Stack>
       )}
-    </Theme>
+    </>
   );
 };
 

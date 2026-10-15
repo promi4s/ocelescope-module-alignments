@@ -7,6 +7,7 @@ from ocelescope import  OCEL
 from r4pm.bindings.discovery.case_centric.alphappp.full import PetriNet as R4PMPetriNet
 import uuid
 import traceback
+from r4pm.bindings.core.event_data.object_centric.utils.flatten import flatten_ocel_on
 
 class AlignmentComputationError(Exception):
     def __init__(self, message: str, trace: str | None = None):
@@ -112,6 +113,15 @@ def is_flattened(petri_net: PetriNet) -> bool:
 
 
 def preprocessing(ocel:OCEL, object_type:str, petri_net: PetriNet | None) -> Tuple[str, R4PMPetriNet]: 
+    config = {
+        "absolute_df_clean_thresh": 1,
+        "balance_thresh": 0.2,
+        "fitness_thresh": 0.2,
+        "log_repair_loop_df_thresh_rel": 0.2,
+        "log_repair_skip_df_thresh_rel": 0.2,
+        "relative_df_clean_thresh": 0.2,
+        "replay_thresh": 0.2,
+    }
     event_log_df = ocel.sql(f"""
         SELECT
             rel."ocel:oid" as "case:concept:name",
@@ -136,6 +146,7 @@ def preprocessing(ocel:OCEL, object_type:str, petri_net: PetriNet | None) -> Tup
             ORDER BY
             ("time:timestamp", "case:concept:name", "concept:name")
                 """).pl()
+
     log_id = r4pm.import_item_from_df('EventLog', event_log_df)
     proj_id = r4pm.bindings.log_to_activity_projection(log_id)
     if petri_net:
@@ -144,7 +155,7 @@ def preprocessing(ocel:OCEL, object_type:str, petri_net: PetriNet | None) -> Tup
         else:
             process_model = to_r4pm_format(flatten(petri_net,object_type))
     else:
-        process_model = r4pm.bindings.discover_alphaplusplusplus(proj_id)
+        process_model = r4pm.bindings.discover_alphaplusplusplus(proj_id,config=config)
     return proj_id,process_model
 
     
