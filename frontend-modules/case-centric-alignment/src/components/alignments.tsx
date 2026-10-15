@@ -2,13 +2,21 @@ import "@r4pm/components/styles.css";
 import { Box, Button, LoadingOverlay, Tabs, Stack, Text, Group, SegmentedControl } from "@mantine/core";
 import { useCurrentOcel } from "@ocelescope/core";
 import type { LogAlignments } from "@r4pm/components";
-import { AlignmentListViewer, Theme, AlignmentNetViewer, ViewerConfigProvider } from "@r4pm/components";
+import { AlignmentListViewer, AlignmentNetViewer, ViewerConfigProvider } from "@r4pm/components";
 import { wasmLayout } from "@r4pm/components/rust-layout/wasm";
 import { useGetAlignments, useObjectTypes } from "../api/caseCentricAlignments";
 import { ResourceSelect } from "@ocelescope/resources";
 import { useState } from "react";
 import { keepPreviousData } from "@tanstack/react-query";
 import { PlayIcon } from "lucide-react";
+
+type RunState = {
+  selectedResourceId: string | null;
+  submittedResourceId: string | null | undefined;
+};
+
+const runStateStore = new Map<string, RunState>();
+const initialRunState: RunState = { selectedResourceId: null, submittedResourceId: undefined };
 
 const AlignmentComponent = ({
   ocelId,
@@ -19,15 +27,40 @@ const AlignmentComponent = ({
   objectType: string;
   mode: string;
 }) => {
-  const [resourceId, setResourceId] = useState<string | null>(null);
-  const [hasRun, setHasRun] = useState(false);
-
-  const { data, isFetching, refetch } = useGetAlignments(ocelId,{ object_type: objectType, resource_id: resourceId },{query: {enabled: false, placeholderData: keepPreviousData, retry:false}});
-
-  const runAlignment = async () => {
-    setHasRun(true);
-    await refetch();
+  const storeKey = `${ocelId}::${objectType}`;
+  const [runState, setRunStateLocal] = useState<RunState>(
+    () => runStateStore.get(storeKey) ?? initialRunState,
+  );
+  const setRunState = (next: RunState) => {
+    runStateStore.set(storeKey, next);
+    setRunStateLocal(next);
   };
+
+  const hasRun = runState.submittedResourceId !== undefined;
+
+  const { data, isFetching } = useGetAlignments(
+    ocelId,
+    { object_type: objectType, resource_id: runState.submittedResourceId ?? null },
+    {
+      query: {
+        enabled: hasRun,
+        staleTime: Infinity, 
+        gcTime: Infinity, 
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        placeholderData: keepPreviousData,
+        retry: false,
+      },
+    },
+  );
+
+
+  const runAlignment = () => {
+    setRunState({ ...runState, submittedResourceId: runState.selectedResourceId });
+  };
+
+  const resourceId = runState.selectedResourceId;
+  const setResourceId = (id: string | null) => setRunState({ ...runState, selectedResourceId: id });
 
   return (
     <Box pos="relative" h="100%" style={{ display: "flex", flexDirection: "column", minHeight: 0 }}>
