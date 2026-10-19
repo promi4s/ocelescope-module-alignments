@@ -1,14 +1,14 @@
 import "@r4pm/components/styles.css";
-import { Box, Button, LoadingOverlay, Tabs, Stack, Text, Group, SegmentedControl } from "@mantine/core";
+import { Box, Button, Group, LoadingOverlay, SegmentedControl, Stack, Tabs, Text } from "@mantine/core";
 import { useCurrentOcel } from "@ocelescope/core";
+import { ResourceSelect } from "@ocelescope/resources";
 import type { LogAlignments } from "@r4pm/components";
 import { AlignmentListViewer, AlignmentNetViewer, ViewerConfigProvider } from "@r4pm/components";
 import { wasmLayout } from "@r4pm/components/rust-layout/wasm";
-import { useGetAlignments, useObjectTypes } from "../api/caseCentricAlignments";
-import { ResourceSelect } from "@ocelescope/resources";
-import { useState } from "react";
 import { keepPreviousData } from "@tanstack/react-query";
 import { PlayIcon } from "lucide-react";
+import { useState } from "react";
+import { useGetAlignments, useObjectTypes } from "../api/caseCentricAlignments";
 
 type RunState = {
   selectedResourceId: string | null;
@@ -18,19 +18,9 @@ type RunState = {
 const runStateStore = new Map<string, RunState>();
 const initialRunState: RunState = { selectedResourceId: null, submittedResourceId: undefined };
 
-const AlignmentComponent = ({
-  ocelId,
-  objectType,
-  mode
-}: {
-  ocelId: string;
-  objectType: string;
-  mode: string;
-}) => {
+const AlignmentComponent = ({ ocelId, objectType, mode }: { ocelId: string; objectType: string; mode: string }) => {
   const storeKey = `${ocelId}::${objectType}`;
-  const [runState, setRunStateLocal] = useState<RunState>(
-    () => runStateStore.get(storeKey) ?? initialRunState,
-  );
+  const [runState, setRunStateLocal] = useState<RunState>(() => runStateStore.get(storeKey) ?? initialRunState);
   const setRunState = (next: RunState) => {
     runStateStore.set(storeKey, next);
     setRunStateLocal(next);
@@ -44,8 +34,8 @@ const AlignmentComponent = ({
     {
       query: {
         enabled: hasRun,
-        staleTime: Infinity, 
-        gcTime: Infinity, 
+        staleTime: Infinity,
+        gcTime: Infinity,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
         placeholderData: keepPreviousData,
@@ -53,7 +43,6 @@ const AlignmentComponent = ({
       },
     },
   );
-
 
   const runAlignment = () => {
     setRunState({ ...runState, submittedResourceId: runState.selectedResourceId });
@@ -86,12 +75,14 @@ const AlignmentComponent = ({
             Select a model (or leave on Auto-Discover) and press Run to compute alignments.
           </Text>
         ) : (
-          data && (mode === "list" ? 
-          (<AlignmentListViewer data={data as LogAlignments}/>) 
-          : (
-          <ViewerConfigProvider value={{ layout: wasmLayout }}>
+          data &&
+          (mode === "list" ? (
+            <AlignmentListViewer data={data as LogAlignments} />
+          ) : (
+            <ViewerConfigProvider value={{ layout: wasmLayout }}>
               <AlignmentNetViewer data={data as LogAlignments} />
-          </ViewerConfigProvider>))
+            </ViewerConfigProvider>
+          ))
         )}
       </Box>
     </Box>
@@ -101,7 +92,7 @@ const AlignmentComponent = ({
 const Alignment = () => {
   const { id } = useCurrentOcel();
   const { data: objectTypes } = useObjectTypes(id, undefined, { query: { enabled: !!id } });
-  const [mode, setMode] = useState<"list" | "net">('list');
+  const [mode, setMode] = useState<"list" | "net">("list");
 
   if (!id || !objectTypes) {
     return <LoadingOverlay visible />;
@@ -125,13 +116,16 @@ const Alignment = () => {
               ))}
             </Tabs.List>
             <Stack h="100%" px="xs">
-              <SegmentedControl 
-                  value={mode} 
-                  onChange={setMode} 
-                  data={[{label: "Alignment List", value:"list"}, {label:"Alignment Net", value:"net"}]} 
-                  size="xs"
-                  w={280}>
-              </SegmentedControl>
+              <SegmentedControl
+                value={mode}
+                onChange={setMode}
+                data={[
+                  { label: "Alignment List", value: "list" },
+                  { label: "Alignment Net", value: "net" },
+                ]}
+                size="xs"
+                w={280}
+              ></SegmentedControl>
               {objectTypes.map((objectType) => (
                 <Tabs.Panel key={objectType} value={objectType} flex={1}>
                   <AlignmentComponent ocelId={id} objectType={objectType} mode={mode} />
@@ -142,13 +136,16 @@ const Alignment = () => {
         </Tabs>
       ) : (
         <Stack h="100%" px="xs" pt={"xs"}>
-          <SegmentedControl 
-                  value={mode} 
-                  onChange={setMode} 
-                  data={[{label: "Alignment List", value:"list"}, {label:"Alignment Net", value:"net"}]} 
-                  size="xs"
-                  w={280}>
-          </SegmentedControl>
+          <SegmentedControl
+            value={mode}
+            onChange={setMode}
+            data={[
+              { label: "Alignment List", value: "list" },
+              { label: "Alignment Net", value: "net" },
+            ]}
+            size="xs"
+            w={280}
+          ></SegmentedControl>
           <AlignmentComponent ocelId={id} objectType={firstObjectType} mode={mode} />
         </Stack>
       )}
@@ -156,4 +153,4 @@ const Alignment = () => {
   );
 };
 
-export default Alignment
+export default Alignment;

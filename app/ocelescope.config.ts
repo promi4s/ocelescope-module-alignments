@@ -1,8 +1,8 @@
+import caseCentricAlignmentsModule from "@ocelescope/alignments";
 import type { OcelescopeConfig } from "@ocelescope/core";
 import management from "@ocelescope/management";
-import caseCentricAlignmentsModule from "@ocelescope/alignments";
 
 // `pnpm run add:frontend` adds local frontend modules here.
 export default {
-	modules: [management, caseCentricAlignmentsModule],
+  modules: [management, caseCentricAlignmentsModule],
 } satisfies OcelescopeConfig;

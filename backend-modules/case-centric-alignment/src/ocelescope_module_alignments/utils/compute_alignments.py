@@ -5,9 +5,6 @@ from typing import Dict, List, Optional, Tuple
 import polars
 import r4pm
 from ocelescope import OCEL, PetriNet
-from r4pm.bindings.core.event_data.object_centric.utils.flatten import flatten_ocel_on
-from r4pm.bindings.discovery.case_centric.alphappp.full import PetriNet as R4PMPetriNet
-
 from ocelescope_module_alignments.models.alignment import (
     Aggregated,
     AlignmentOptions,
@@ -20,6 +17,8 @@ from ocelescope_module_alignments.models.alignment import (
     TransitionStat,
     VariantAlignmentResult,
 )
+from r4pm.bindings.core.event_data.object_centric.utils.flatten import flatten_ocel_on
+from r4pm.bindings.discovery.case_centric.alphappp.full import PetriNet as R4PMPetriNet
 
 
 class AlignmentComputationError(Exception):
@@ -38,16 +37,13 @@ def to_r4pm_format(petri_net: PetriNet) -> R4PMPetriNet:
     places = {pid: {"id": pid} for pid in place_ids.values()}
 
     transitions = {
-        tid: {"id": tid, "label": t.label}
-        for t, tid in ((t, transition_ids[t.name]) for t in petri_net.transitions)
+        tid: {"id": tid, "label": t.label} for t, tid in ((t, transition_ids[t.name]) for t in petri_net.transitions)
     }
 
     arcs = [
         {
             "from_to": {
-                "type": "PlaceTransition"
-                if arc.source in place_ids
-                else "TransitionPlace",
+                "type": "PlaceTransition" if arc.source in place_ids else "TransitionPlace",
                 "nodes": [node_id(arc.source), node_id(arc.target)],
             },
             "weight": arc.weight,
@@ -55,12 +51,8 @@ def to_r4pm_format(petri_net: PetriNet) -> R4PMPetriNet:
         for arc in petri_net.arcs
     ]
 
-    initial_marking = {
-        place_ids[name]: count for name, count in petri_net.initial_marking.items()
-    }
-    final_marking = {
-        place_ids[name]: count for name, count in petri_net.final_marking.items()
-    }
+    initial_marking = {place_ids[name]: count for name, count in petri_net.initial_marking.items()}
+    final_marking = {place_ids[name]: count for name, count in petri_net.final_marking.items()}
 
     return {
         "places": places,
@@ -88,20 +80,10 @@ def flatten(petri_net: PetriNet, object_type: str) -> PetriNet:
         if not target_is_place:
             connected_transition_names.add(arc.target)
 
-    transitions_flatten = [
-        t for t in petri_net.transitions if t.name in connected_transition_names
-    ]
+    transitions_flatten = [t for t in petri_net.transitions if t.name in connected_transition_names]
 
-    initial_marking_flatten = {
-        name: count
-        for name, count in petri_net.initial_marking.items()
-        if name in place_names
-    }
-    final_marking_flatten = {
-        name: count
-        for name, count in petri_net.final_marking.items()
-        if name in place_names
-    }
+    initial_marking_flatten = {name: count for name, count in petri_net.initial_marking.items() if name in place_names}
+    final_marking_flatten = {name: count for name, count in petri_net.final_marking.items() if name in place_names}
 
     return PetriNet(
         places=places_flatten,
@@ -114,10 +96,7 @@ def flatten(petri_net: PetriNet, object_type: str) -> PetriNet:
 
 def convert_net(petri_net: R4PMPetriNet) -> ResponseNet:
     places = [NetPlace(id=p_id) for p_id in petri_net["places"].keys()]
-    transitions = [
-        NetTransition(id=t_id, label=t.get("label"))
-        for t_id, t in petri_net["transitions"].items()
-    ]
+    transitions = [NetTransition(id=t_id, label=t.get("label")) for t_id, t in petri_net["transitions"].items()]
     arcs = [
         NetArc(
             nodes=(arc["from_to"]["nodes"][0], arc["from_to"]["nodes"][1]),
@@ -148,9 +127,7 @@ def is_flattened(petri_net: PetriNet) -> bool:
     return len(object_types) == 1
 
 
-def preprocessing(
-    ocel: OCEL, object_type: str, petri_net: PetriNet | None
-) -> Tuple[str, R4PMPetriNet]:
+def preprocessing(ocel: OCEL, object_type: str, petri_net: PetriNet | None) -> Tuple[str, R4PMPetriNet]:
     config = {
         "absolute_df_clean_thresh": 1,
         "balance_thresh": 0.2,
@@ -206,12 +183,8 @@ def variant_alignment(
     return [VariantAlignmentResult(**r) for r in raw_result]
 
 
-def compute_fitness(
-    alignments: List[VariantAlignmentResult], process_model: R4PMPetriNet
-) -> FitnessResult:
-    fitness = r4pm.bindings.compute_fitness(
-        [a.model_dump() for a in alignments], process_model
-    )
+def compute_fitness(alignments: List[VariantAlignmentResult], process_model: R4PMPetriNet) -> FitnessResult:
+    fitness = r4pm.bindings.compute_fitness([a.model_dump() for a in alignments], process_model)
     return FitnessResult(**fitness)
 
 
@@ -230,15 +203,11 @@ def compute_aggregated(
         for move in result["Ok"]["moves"]:
             if "SyncMove" in move:
                 t = move["SyncMove"]["transition"]
-                stats = transition_stats.setdefault(
-                    t, {"sync_fires": 0, "model_fires": 0}
-                )
+                stats = transition_stats.setdefault(t, {"sync_fires": 0, "model_fires": 0})
                 stats["sync_fires"] += freq
             elif "ModelMove" in move:
                 t = move["ModelMove"]["transition"]
-                stats = transition_stats.setdefault(
-                    t, {"sync_fires": 0, "model_fires": 0}
-                )
+                stats = transition_stats.setdefault(t, {"sync_fires": 0, "model_fires": 0})
                 stats["model_fires"] += freq
             elif "LogMove" in move:
                 idx = move["LogMove"]["trace_event_index"]
@@ -274,4 +243,3 @@ def compute_alignments(ocel: OCEL, object_type: str, petri_net: PetriNet | None)
         fitness=fitness,
         aggregated=aggregated,
     )
-

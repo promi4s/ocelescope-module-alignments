@@ -26,9 +26,7 @@ class CostFunction(BaseModel):
 
 class AlignmentOptions(BaseModel):
     cost_fn: CostFunction  # Cost function for alignment moves
-    max_states: Optional[
-        Optional[int]
-    ]  # Maximum number of states to visit before aborting (per trace).
+    max_states: Optional[Optional[int]]  # Maximum number of states to visit before aborting (per trace).
 
 
 class TransitionStat(BaseModel):

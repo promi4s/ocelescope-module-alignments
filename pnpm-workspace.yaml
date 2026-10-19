@@ -16,3 +16,5 @@ allowBuilds:
   sharp: true
 configDependencies:
   '@ocelescope/pnpm-plugin-catalog': latest
+catalog:
+  '@biomejs/biome': 2.5.14

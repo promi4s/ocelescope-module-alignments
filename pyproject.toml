@@ -17,3 +17,15 @@ members = ["backend-modules/*"]
 
 [tool.uv.sources]
 ocelescope-module-alignments = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "ruff>=0.17.1",
+    "ty>=0.0.89",
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+extend-select = ["I"]
