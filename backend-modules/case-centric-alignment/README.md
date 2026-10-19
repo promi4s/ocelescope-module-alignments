@@ -1,22 +1,16 @@
-# Case-Centric Alignments
+# ocelescope-module-case-centric-alignments
 
-case-centric Alignments
+An [Ocelescope](https://www.ocelescope.org) backend module that computes
+case-centric alignments for object-centric event logs.
 
-An [Ocelescope](https://www.ocelescope.org) backend module. It is a FastAPI app
-that `ocelescope-backend` discovers through the `ocelescope_backend.modules`
-entry point in `pyproject.toml` and serves under `/modules/caseCentricAlignments/v1`.
+For a selected object type, the log is aligned against a Petri net resource,
+or against a model discovered with Alpha+++ if none is given.
 
-- `src/ocelescope_module_case_centric_alignments/module.py` — module class `CaseCentricAlignments` (key `caseCentricAlignments`)
-- `src/ocelescope_module_case_centric_alignments/routes.py` — API routes
-
-Install it next to `ocelescope-backend` (e.g. as a uv workspace member of an
-Ocelescope module project) and run `ocelescope-backend serve`.
-
-## Updating from the template
-
-This module was generated with [Copier](https://copier.readthedocs.io). To pull
-in later changes from the template, commit your work and run in this folder:
+## Installation
 
 ```sh
-uvx copier update
+pip install ocelescope-module-alignments
 ```
+
+Install it next to `ocelescope-backend`. The module is picked up automatically
+and served under `/modules/alignments/v1`.

@@ -15,7 +15,7 @@
 		"dist"
 	],
 	"scripts": {
-		"generate:api": "uv run ocelescope-backend openapi --module caseCentricAlignments",
+		"generate:api": "uv run ocelescope-backend openapi --module alignments",
 		"build": "pnpm run generate:api && orval && tsdown",
 		"dev": "tsdown --watch ./src",
 		"typecheck": "tsc --noEmit"

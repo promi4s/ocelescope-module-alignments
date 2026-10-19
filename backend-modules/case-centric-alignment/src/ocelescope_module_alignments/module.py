@@ -2,11 +2,11 @@ from fastapi import FastAPI
 from ocelescope_backend.app.modules import Module, ModuleMeta
 from packaging.version import Version
 
-from ocelescope_module_case_centric_alignments.routes import router
+from ocelescope_module_alignments.routes import router
 
 
-class CaseCentricAlignments(Module):
-    meta = ModuleMeta(key="caseCentricAlignments", version=Version("1.0"))
+class Alignments(Module):
+    meta = ModuleMeta(key="alignments", version=Version("1.0"))
 
     def create_app(self) -> FastAPI:
         app = FastAPI(title="Case-Centric Alignments", version=str(self.meta.version))
