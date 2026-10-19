@@ -10,7 +10,7 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@instance/case-centric-alignments": "workspace:*",
+		"@ocelescope/alignments": "workspace:*",
 		"@ocelescope/core": "catalog:",
 		"@ocelescope/management": "catalog:",
 		"next": "catalog:",

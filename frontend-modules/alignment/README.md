@@ -1,4 +1,4 @@
-# @instance/case-centric-alignments
+# @ocelescope/case-centric-alignments
 
 An [Ocelescope](https://www.ocelescope.org) frontend module for computing and
 viewing case-centric alignments of the current object-centric event log.
