@@ -1,14 +1,14 @@
 [project]
 name = "ocelescope-module-alignments"
-version = "0.1.0"
+version = "0.10.3"
 readme = "README.md"
 description = "case-centric Alignments"
 authors = [{ name = "Uy Sa Huynh" }]
 requires-python = ">=3.11"
 dependencies = [
-  "ocelescope-backend>=0.10.1",
-  "ocelescope-module-filter>=0.10.1,<0.11.0",
-  "ocelescope-module-ocel>=0.10.1,<0.11.0",
+  "ocelescope-backend>=0.10.2",
+  "ocelescope-module-filter>=0.10.2,<0.11.0",
+  "ocelescope-module-ocel>=0.10.2,<0.11.0",
 ]
 
 [project.entry-points."ocelescope_backend.modules"]

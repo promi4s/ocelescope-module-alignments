@@ -1,9 +1,8 @@
 {
 	"name": "@ocelescope/alignments",
-	"version": "0.10.2",
+	"version": "0.10.3",
 	"description": "case-centric Alignments",
 	"author": "Uy Sa Huynh",
-	"private": true,
 	"type": "module",
 	"exports": {
 		".": "./dist/index.js",
@@ -30,11 +29,11 @@
 		"next": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
-		"@r4pm/components": "^0.3.2",
-		"@mantine/hooks": "9.4.0",
-		"@mantine/core": "^9.4.0",
-		"@xyflow/react": "^12.10.1",
-		"@mantine/notifications": "^9.7.1"
+		"@r4pm/components": "catalog:",
+		"@mantine/hooks": "catalog:",
+		"@mantine/core": "catalog:",
+		"@xyflow/react": "catalog:",
+		"@mantine/notifications": "catalog:"
 	},
 	"devDependencies": {
 		"@ocelescope/api-client": "catalog:",
