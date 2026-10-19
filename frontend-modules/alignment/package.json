@@ -1,6 +1,6 @@
 {
 	"name": "@ocelescope/alignments",
-	"version": "0.10.3",
+	"version": "0.10.4",
 	"description": "case-centric Alignments",
 	"author": "Uy Sa Huynh",
 	"type": "module",
