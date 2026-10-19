@@ -4,6 +4,10 @@
 	"description": "case-centric Alignments",
 	"author": "Uy Sa Huynh",
 	"type": "module",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/promi4s/ocelescope-module-alignments"
+	},
 	"exports": {
 		".": "./dist/index.js",
 		"./package.json": "./package.json"
