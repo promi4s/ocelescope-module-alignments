@@ -8,7 +8,7 @@ import { wasmLayout } from "@r4pm/components/rust-layout/wasm";
 import { keepPreviousData } from "@tanstack/react-query";
 import { PlayIcon } from "lucide-react";
 import { useState } from "react";
-import { useGetAlignments, useObjectTypes } from "../api/caseCentricAlignments";
+import { useGetAlignments, useObjectTypes, useOcpnSchemaHash } from "../api/caseCentricAlignments";
 
 type RunState = {
   selectedResourceId: string | null;
@@ -50,6 +50,8 @@ const AlignmentComponent = ({ ocelId, objectType, mode }: { ocelId: string; obje
 
   const resourceId = runState.selectedResourceId;
   const setResourceId = (id: string | null) => setRunState({ ...runState, selectedResourceId: id });
+  const {data: petriNetSchemaHash} = useOcpnSchemaHash()
+
 
   return (
     <Box pos="relative" h="100%" style={{ display: "flex", flexDirection: "column", minHeight: 0 }}>
@@ -58,7 +60,7 @@ const AlignmentComponent = ({ ocelId, objectType, mode }: { ocelId: string; obje
         <ResourceSelect
           label="Model"
           description="Select Process Model to align against"
-          type="e8a4b93820f2f145136e404a06dceb73e074982534c39d64895eda58ab5b5dc1"
+          type={petriNetSchemaHash}
           value={resourceId}
           placeholder="Auto-Discover with Alpha +++"
           onChange={(newResourceId) => setResourceId(newResourceId as string)}

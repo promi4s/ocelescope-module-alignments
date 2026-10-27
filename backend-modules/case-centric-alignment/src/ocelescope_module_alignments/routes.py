@@ -1,5 +1,3 @@
-from typing import cast
-
 from fastapi import APIRouter, HTTPException
 from ocelescope import PetriNet
 from ocelescope_backend.app.dependencies import ApiOcel, ApiSession
@@ -20,11 +18,7 @@ def get_alignments(
     ocel: ApiOcel, session: ApiSession, object_type: str, resource_id: str | None = None
 ) -> AlignmentsResponse:
     try:
-        if resource_id:
-            resource_store = cast(PetriNet, session.get_resource(resource_id))
-            petri_net = PetriNet(**resource_store.data)
-        else:
-            petri_net = None
+        petri_net = session.load_resource(resource_id, PetriNet) if resource_id else None
 
         return compute_alignments(ocel, object_type, petri_net)
     except AlignmentComputationError as e:
@@ -43,3 +37,7 @@ def get_alignments(
 @router.get("/{ocel_id}/objects/types", operation_id="objectTypes")
 def get_object_types(ocel: ApiOcel) -> list[str]:
     return ocel.objects.types
+
+@router.get("/ocpn/schemaHash", operation_id="ocpnSchemaHash")
+def get_ocpn_schema_hash() -> str:
+    return PetriNet.get_schema_hash()
