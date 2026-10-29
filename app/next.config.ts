@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
     proxyClientMaxBodySize: "1000gb",
     proxyTimeout: 30 * 60 * 1000,
   },
-  transpilePackages: ["@mantine/charts", "recharts", "@r4pm/components", ...localModules],
+  transpilePackages: ["@r4pm/components", ...localModules],
   rewrites: async () => [{ source: "/api/external/:path*", destination: `${apiBase}/:path*` }],
 };
 

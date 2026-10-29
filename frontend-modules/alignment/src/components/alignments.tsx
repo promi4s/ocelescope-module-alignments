@@ -4,7 +4,7 @@ import { useCurrentOcel } from "@ocelescope/core";
 import { ResourceSelect } from "@ocelescope/resources";
 import type { LogAlignments } from "@r4pm/components";
 import { AlignmentListViewer, AlignmentNetViewer, ViewerConfigProvider } from "@r4pm/components";
-import { wasmLayout } from "@r4pm/components/rust-layout/wasm";
+import { wasmViz } from "@r4pm/components/viz/wasm";
 import { keepPreviousData } from "@tanstack/react-query";
 import { PlayIcon } from "lucide-react";
 import { useState } from "react";
@@ -81,7 +81,7 @@ const AlignmentComponent = ({ ocelId, objectType, mode }: { ocelId: string; obje
           (mode === "list" ? (
             <AlignmentListViewer data={data as LogAlignments} />
           ) : (
-            <ViewerConfigProvider value={{ layout: wasmLayout }}>
+            <ViewerConfigProvider value={{ viz: wasmViz }}>
               <AlignmentNetViewer data={data as LogAlignments} />
             </ViewerConfigProvider>
           ))
