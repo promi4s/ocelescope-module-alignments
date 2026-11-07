@@ -57,15 +57,17 @@ const AlignmentComponent = ({ ocelId, objectType, mode }: { ocelId: string; obje
     <Box pos="relative" h="100%" style={{ display: "flex", flexDirection: "column", minHeight: 0 }}>
       <LoadingOverlay visible={isFetching} />
       <Group align="flex-end" gap="sm">
-        <ResourceSelect
-          label="Model"
-          description="Select Process Model to align against"
-          type={petriNetSchemaHash}
-          value={resourceId}
-          placeholder="Auto-Discover with Alpha +++"
-          onChange={(newResourceId) => setResourceId(newResourceId as string)}
-          style={{ flex: 1 }}
-        />
+        <Box style={{ flex: 1 }}>
+          <ResourceSelect
+            label="Model"
+            description="Select Process Model to align against"
+            type={petriNetSchemaHash}
+            value={resourceId}
+            placeholder="Auto-Discover with Alpha +++"
+            onChange={(newResourceId) => setResourceId(newResourceId as string)}
+            style={{ flex: 1 }}
+          />
+        </Box>
         <Button leftSection={<PlayIcon size={16} />} onClick={runAlignment}>
           Run
         </Button>
