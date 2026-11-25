@@ -5,7 +5,7 @@ readme = "README.md"
 description = "case-centric Alignments"
 authors = [{ name = "Uy Sa Huynh" }]
 requires-python = ">=3.11"
-dependencies = ["ocelescope-backend>=0.13.0", "packaging"]
+dependencies = ["ocelescope-backend>=0.13.0", "packaging", "r4pm-full>=0.7.1,<0.8"]
 
 [project.entry-points."ocelescope_backend.modules"]
 caseCentricAlignments = "ocelescope_module_alignments.module:Alignments"
