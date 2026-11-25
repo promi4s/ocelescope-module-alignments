@@ -1327,7 +1327,7 @@ dev = [
 
 [[package]]
 name = "ocelescope-module-alignments"
-version = "0.13.0"
+version = "0.13.1"
 source = { editable = "backend-modules/case-centric-alignment" }
 dependencies = [
     { name = "ocelescope-backend" },
@@ -1339,7 +1339,7 @@ dependencies = [
 requires-dist = [
     { name = "ocelescope-backend", specifier = ">=0.13.0" },
     { name = "packaging" },
-    { name = "r4pm-full", specifier = ">=0.7.1,<0.8" },
+    { name = "r4pm-full", specifier = ">=0.7.1" },
 ]
 
 [[package]]
