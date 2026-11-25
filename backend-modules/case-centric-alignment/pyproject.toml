@@ -1,6 +1,6 @@
 [project]
 name = "ocelescope-module-alignments"
-version = "0.13.1"
+version = "0.13.2"
 readme = "README.md"
 description = "case-centric Alignments"
 authors = [{ name = "Uy Sa Huynh" }]
