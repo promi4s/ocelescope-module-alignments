@@ -114,13 +114,7 @@ def convert_net(petri_net: R4PMPetriNet) -> ResponseNet:
 
 
 def is_flattened(petri_net: PetriNet) -> bool:
-    object_types = set()
-    for place in petri_net.places:
-        object_types.add(place.object_type)
-        if len(object_types) > 1:
-            return False
-
-    return len(object_types) == 1
+    return len({place.object_type for place in petri_net.places}) <= 1
 
 
 def preprocessing(
